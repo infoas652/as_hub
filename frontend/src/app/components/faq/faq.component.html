@@ -1,0 +1,66 @@
+<section id="faq" class="faq-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title">{{ 'faq.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'faq.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div *ngIf="!loading && faqs.length > 0" class="faq-container">
+      <div *ngFor="let faq of faqs; let i = index" 
+           class="faq-item animate-fade-in"
+           [class.active]="activeIndex === i"
+           [style.animation-delay]="(i * 0.05) + 's'">
+        
+        <button class="faq-question" (click)="toggleFaq(i)">
+          <span class="question-text">{{ faq.question }}</span>
+          <span class="toggle-icon">
+            <i class="bi" [class.bi-chevron-down]="activeIndex !== i" [class.bi-chevron-up]="activeIndex === i"></i>
+          </span>
+        </button>
+
+        <div class="faq-answer" [class.show]="activeIndex === i">
+          <div class="answer-content">
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && faqs.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="bi bi-question-circle"></i>
+      </div>
+      <h3 class="empty-title">No FAQs Available Yet</h3>
+      <p class="empty-description">
+        Frequently asked questions will appear here once they are added from the Admin Panel.
+      </p>
+      <div class="empty-illustration">
+        <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="75" r="50" fill="#E5E7EB"/>
+          <text x="100" y="90" font-size="60" fill="#9CA3AF" text-anchor="middle" font-weight="bold">?</text>
+          <circle cx="70" cy="50" r="15" fill="#D1D5DB"/>
+          <circle cx="130" cy="50" r="15" fill="#D1D5DB"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div *ngIf="!loading && faqs.length > 0" class="faq-cta">
+      <h3>{{ 'faq.stillHaveQuestions' | translate }}</h3>
+      <p>{{ 'faq.contactUs' | translate }}</p>
+      <a href="#contact" class="cta-button">
+        <i class="bi bi-envelope"></i>
+        {{ 'faq.getInTouch' | translate }}
+      </a>
+    </div>
+  </div>
+</section>

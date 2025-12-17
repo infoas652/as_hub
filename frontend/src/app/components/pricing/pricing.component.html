@@ -1,0 +1,199 @@
+<section id="pricing" class="pricing-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">{{ 'pricing.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'pricing.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Service Type Selector -->
+    <div class="service-type-selector">
+      <div class="selector-wrapper">
+        <button 
+          *ngFor="let category of pricingCategories"
+          class="service-type-btn"
+          [class.active]="selectedServiceType === category.id"
+          (click)="selectServiceType(category.id)"
+        >
+          <span class="service-icon">{{ category.icon }}</span>
+          <div class="service-info">
+            <h3>{{ getCategoryName(category) }}</h3>
+            <p>{{ getCategoryDescription(category) }}</p>
+          </div>
+          <div class="check-icon" *ngIf="selectedServiceType === category.id">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Billing Toggle -->
+    <div class="billing-toggle-wrapper">
+      <div class="billing-toggle">
+        <span class="billing-label" [class.active]="!isYearly">
+          {{ 'pricing.monthly' | translate }}
+        </span>
+        <label class="toggle-switch">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="isYearly" 
+            (change)="toggleBilling()"
+          >
+          <span class="slider"></span>
+        </label>
+        <span class="billing-label" [class.active]="isYearly">
+          {{ 'pricing.yearly' | translate }}
+          <span class="save-badge" *ngIf="getCurrentCategory()">
+            {{ 'pricing.save' | translate }} {{ getSavings(getCurrentCategory()!.plans[1]) }}%
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="pricing-grid" *ngIf="loading">
+      <div class="pricing-card skeleton" *ngFor="let i of [1,2,3]">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-price"></div>
+        <div class="skeleton-features"></div>
+      </div>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="pricing-grid" *ngIf="!loading && getCurrentCategory()">
+      <div 
+        class="pricing-card"
+        *ngFor="let plan of getCurrentCategory()!.plans; let i = index"
+        [class.popular]="plan.is_popular"
+        [style.animation-delay]="i * 0.1 + 's'"
+      >
+        <!-- Popular Badge -->
+        <div class="popular-badge" *ngIf="plan.is_popular">
+          <i class="bi bi-star-fill"></i>
+          <span>{{ 'pricing.mostPopular' | translate }}</span>
+        </div>
+
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="plan-icon">
+            <i class="bi bi-box"></i>
+          </div>
+          <h3 class="plan-name">{{ plan.name }}</h3>
+          <p class="plan-description">{{ plan.description }}</p>
+        </div>
+
+        <!-- Price -->
+        <div class="price-wrapper">
+          <div class="price">
+            <span class="currency">$</span>
+            <span class="amount">{{ getPrice(plan) }}</span>
+            <span class="period">/{{ billingPeriod === 'monthly' ? ('pricing.month' | translate) : ('pricing.year' | translate) }}</span>
+          </div>
+          <div class="price-note" *ngIf="isYearly">
+            <i class="bi bi-info-circle"></i>
+            <span>{{ 'pricing.saveUpTo' | translate }} ${{ (plan.price_monthly * 12) - plan.price_yearly }}</span>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features-list">
+          <div class="feature-item" *ngFor="let feature of plan.features">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>{{ feature }}</span>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <button 
+          class="cta-button"
+          [class.popular-btn]="plan.is_popular"
+          (click)="scrollToContact()"
+        >
+          <span>{{ 'pricing.getStarted' | translate }}</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+        <!-- Additional Info -->
+        <div class="card-footer">
+          <i class="bi bi-shield-check"></i>
+          <span>{{ 'pricing.moneyBackGuarantee' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!loading && !getCurrentCategory()">
+      <div class="empty-icon">
+        <i class="bi bi-tag"></i>
+      </div>
+      <h3>{{ 'pricing.noPricing' | translate }}</h3>
+      <p>{{ 'pricing.noPricingDescription' | translate }}</p>
+    </div>
+
+    <!-- Features Comparison -->
+    <div class="features-comparison" *ngIf="!loading && getCurrentCategory()">
+      <h3 class="comparison-title">{{ 'pricing.compareFeatures' | translate }}</h3>
+      <div class="comparison-note">
+        <i class="bi bi-info-circle"></i>
+        <span>{{ 'pricing.allPlansInclude' | translate }}</span>
+      </div>
+      <div class="comparison-grid">
+        <div class="comparison-item">
+          <i class="bi bi-lightning-charge-fill"></i>
+          <h4>{{ 'pricing.fastDelivery' | translate }}</h4>
+          <p>{{ 'pricing.fastDeliveryDesc' | translate }}</p>
+        </div>
+        <div class="comparison-item">
+          <i class="bi bi-headset"></i>
+          <h4>{{ 'pricing.support247' | translate }}</h4>
+          <p>{{ 'pricing.support247Desc' | translate }}</p>
+        </div>
+        <div class="comparison-item">
+          <i class="bi bi-shield-check"></i>
+          <h4>{{ 'pricing.securePayment' | translate }}</h4>
+          <p>{{ 'pricing.securePaymentDesc' | translate }}</p>
+        </div>
+        <div class="comparison-item">
+          <i class="bi bi-arrow-repeat"></i>
+          <h4>{{ 'pricing.freeUpdates' | translate }}</h4>
+          <p>{{ 'pricing.freeUpdatesDesc' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="pricing-faq" *ngIf="!loading">
+      <h3 class="faq-title">{{ 'pricing.frequentlyAsked' | translate }}</h3>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>{{ 'pricing.faq1Question' | translate }}</h4>
+          <p>{{ 'pricing.faq1Answer' | translate }}</p>
+        </div>
+        <div class="faq-item">
+          <h4>{{ 'pricing.faq2Question' | translate }}</h4>
+          <p>{{ 'pricing.faq2Answer' | translate }}</p>
+        </div>
+        <div class="faq-item">
+          <h4>{{ 'pricing.faq3Question' | translate }}</h4>
+          <p>{{ 'pricing.faq3Answer' | translate }}</p>
+        </div>
+        <div class="faq-item">
+          <h4>{{ 'pricing.faq4Question' | translate }}</h4>
+          <p>{{ 'pricing.faq4Answer' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="pricing-cta" *ngIf="!loading">
+      <div class="cta-content">
+        <h3>{{ 'pricing.notSureWhichPlan' | translate }}</h3>
+        <p>{{ 'pricing.contactUsForCustom' | translate }}</p>
+        <button class="cta-contact-btn" (click)="scrollToContact()">
+          <i class="bi bi-chat-dots"></i>
+          <span>{{ 'pricing.contactUs' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

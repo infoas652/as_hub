@@ -1,0 +1,180 @@
+{
+  "header": {
+    "home": "Home",
+    "services": "Services",
+    "pricing": "Pricing",
+    "features": "Features",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "getStarted": "Get Started",
+    "requestDemo": "Request Demo"
+  },
+  "hero": {
+    "title": "Transform Your Business with AS Hub",
+    "subtitle": "Professional web and mobile solutions tailored to your needs",
+    "description": "We deliver cutting-edge digital solutions that drive growth and innovation for your business",
+    "ctaDemo": "Request Demo",
+    "ctaStart": "Get Started",
+    "pricingHint": "Plans starting from $20/month"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive digital solutions for your business",
+    "viewAll": "View All Services",
+    "learnMore": "Learn More"
+  },
+  "pricing": {
+    "title": "Flexible Pricing Plans",
+    "subtitle": "Choose the perfect solution for your business needs",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "month": "month",
+    "year": "year",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "popular": "Popular",
+    "mostPopular": "Most Popular",
+    "selectPlan": "Select Plan",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us",
+    "save": "Save",
+    "saveUpTo": "Save up to",
+    "moneyBackGuarantee": "30-day money-back guarantee",
+    "compareFeatures": "What's Included",
+    "allPlansInclude": "All plans include these amazing features",
+    "fastDelivery": "Fast Delivery",
+    "fastDeliveryDesc": "Quick turnaround time for your project",
+    "support247": "24/7 Support",
+    "support247Desc": "Round-the-clock customer support",
+    "securePayment": "Secure Payment",
+    "securePaymentDesc": "Safe and encrypted transactions",
+    "freeUpdates": "Free Updates",
+    "freeUpdatesDesc": "Regular updates and improvements",
+    "frequentlyAsked": "Frequently Asked Questions",
+    "faq1Question": "Can I change my plan later?",
+    "faq1Answer": "Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.",
+    "faq2Question": "What payment methods do you accept?",
+    "faq2Answer": "We accept all major credit cards, PayPal, and bank transfers for annual plans.",
+    "faq3Question": "Is there a setup fee?",
+    "faq3Answer": "No, there are no hidden fees. The price you see is what you pay.",
+    "faq4Question": "Do you offer refunds?",
+    "faq4Answer": "Yes, we offer a 30-day money-back guarantee if you're not satisfied with our service.",
+    "notSureWhichPlan": "Not sure which plan is right for you?",
+    "contactUsForCustom": "Contact us for a custom solution tailored to your specific needs",
+    "noPricing": "No Pricing Plans Available",
+    "noPricingDescription": "Please check back later or contact us for custom pricing"
+  },
+  "features": {
+    "title": "Why Choose AS Hub",
+    "subtitle": "Powerful features to accelerate your business growth"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Get started in three simple steps",
+    "step1": {
+      "title": "Sign Up",
+      "description": "Create your account in minutes and choose your plan"
+    },
+    "step2": {
+      "title": "Customize",
+      "description": "Tailor the solution to match your business needs"
+    },
+    "step3": {
+      "title": "Launch",
+      "description": "Go live and start growing your business"
+    }
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Trusted by businesses worldwide"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a question? We'd love to hear from you",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone",
+    "company": "Company Name",
+    "companyPlaceholder": "Enter your company",
+    "plan": "Interested Plan",
+    "planPlaceholder": "Select a plan",
+    "message": "Message",
+    "messagePlaceholder": "Tell us about your project",
+    "submit": "Send Message",
+    "sending": "Sending...",
+    "success": "Thank you! We'll get back to you soon.",
+    "error": "Something went wrong. Please try again.",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "address": {
+      "title": "Address",
+      "value": "123 Business St, Tech City, TC 12345"
+    },
+    "email": {
+      "title": "Email",
+      "value": "info@ashub.com"
+    },
+    "phone": {
+      "title": "Phone",
+      "value": "+1 (555) 123-4567"
+    },
+    "hours": {
+      "title": "Business Hours",
+      "value": "Mon - Fri: 9:00 AM - 6:00 PM"
+    },
+    "followUs": "Follow Us",
+    "form": {
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1 (555) 123-4567",
+      "phoneInvalid": "Please enter a valid phone number",
+      "company": "Company Name",
+      "companyPlaceholder": "Your Company",
+      "plan": "Interested Plan",
+      "selectPlan": "Select a plan",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project...",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "successMessage": "Thank you! We'll get back to you soon.",
+      "errorMessage": "Something went wrong. Please try again."
+    }
+  },
+  "footer": {
+    "tagline": "Your Digital Transformation Partner",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us"
+  }
+}

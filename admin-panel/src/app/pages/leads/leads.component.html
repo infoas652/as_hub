@@ -1,0 +1,180 @@
+<div class="leads-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">{{ 'leads.title' | translate }}</h1>
+      <p class="page-subtitle">{{ 'leads.subtitle' | translate }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="refreshData()">
+        <span class="icon">🔄</span>
+        {{ 'common.refresh' | translate }}
+      </button>
+      <button class="btn btn-success" (click)="exportLeads()">
+        <span class="icon">📥</span>
+        {{ 'leads.export' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Bar -->
+  <div class="filters-bar">
+    <div class="filter-group">
+      <label>{{ 'leads.status' | translate }}:</label>
+      <select [(ngModel)]="selectedStatus" (change)="applyFilters()" class="form-control">
+        <option value="all">{{ 'common.all' | translate }}</option>
+        <option value="new">{{ 'leads.new' | translate }}</option>
+        <option value="contacted">{{ 'leads.contacted' | translate }}</option>
+        <option value="qualified">{{ 'leads.qualified' | translate }}</option>
+        <option value="converted">{{ 'leads.converted' | translate }}</option>
+        <option value="closed">{{ 'leads.closed' | translate }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>{{ 'leads.processed' | translate }}:</label>
+      <select [(ngModel)]="selectedProcessed" (change)="applyFilters()" class="form-control">
+        <option value="all">{{ 'common.all' | translate }}</option>
+        <option value="true">{{ 'leads.processedOnly' | translate }}</option>
+        <option value="false">{{ 'leads.unprocessedOnly' | translate }}</option>
+      </select>
+    </div>
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        [placeholder]="'common.search' | translate"
+        class="form-control">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <!-- Leads Table -->
+  <div class="table-container" *ngIf="!loading && leads.length > 0">
+    <table class="leads-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>{{ 'leads.name' | translate }}</th>
+          <th>{{ 'leads.email' | translate }}</th>
+          <th>{{ 'leads.phone' | translate }}</th>
+          <th>{{ 'leads.company' | translate }}</th>
+          <th>{{ 'leads.plan' | translate }}</th>
+          <th>{{ 'leads.status' | translate }}</th>
+          <th>{{ 'leads.date' | translate }}</th>
+          <th>{{ 'common.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lead of leads" [class.processed]="lead.is_processed">
+          <td>{{ lead.id }}</td>
+          <td>
+            <div class="lead-name">
+              <span class="name">{{ lead.name }}</span>
+              <span class="badge badge-processed" *ngIf="lead.is_processed">✓</span>
+            </div>
+          </td>
+          <td>{{ lead.email }}</td>
+          <td>{{ lead.phone || '-' }}</td>
+          <td>{{ lead.company || '-' }}</td>
+          <td>
+            <span class="badge badge-plan" *ngIf="lead.plan">{{ lead.plan }}</span>
+            <span *ngIf="!lead.plan">-</span>
+          </td>
+          <td>
+            <span class="badge" [class]="'badge-' + lead.status">
+              {{ 'leads.' + lead.status | translate }}
+            </span>
+          </td>
+          <td>{{ formatDate(lead.created_at) }}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-icon" (click)="viewLead(lead)" [title]="'leads.view' | translate">
+                👁️
+              </button>
+              <button class="btn btn-icon" *ngIf="!lead.is_processed" (click)="markAsProcessed(lead)" [title]="'leads.markProcessed' | translate">
+                ✓
+              </button>
+              <button class="btn btn-icon btn-danger" (click)="deleteLead(lead)" [title]="'common.delete' | translate">
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && leads.length === 0">
+    <span class="empty-icon">📧</span>
+    <h3>{{ 'leads.noLeads' | translate }}</h3>
+    <p>{{ 'leads.noLeadsDesc' | translate }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>{{ 'common.loading' | translate }}</p>
+  </div>
+</div>
+
+<!-- View Lead Modal -->
+<div class="modal-overlay" *ngIf="showModal && selectedLead" (click)="closeModal()">
+  <div class="modal-content modal-large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ 'leads.viewDetails' | translate }}</h2>
+      <button class="btn-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="lead-details">
+        <div class="detail-row">
+          <label>{{ 'leads.name' | translate }}:</label>
+          <span>{{ selectedLead.name }}</span>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.email' | translate }}:</label>
+          <span>{{ selectedLead.email }}</span>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.phone' | translate }}:</label>
+          <span>{{ selectedLead.phone || '-' }}</span>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.company' | translate }}:</label>
+          <span>{{ selectedLead.company || '-' }}</span>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.plan' | translate }}:</label>
+          <span>{{ selectedLead.plan || '-' }}</span>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.status' | translate }}:</label>
+          <span class="badge" [class]="'badge-' + selectedLead.status">
+            {{ 'leads.' + selectedLead.status | translate }}
+          </span>
+        </div>
+        <div class="detail-row full-width">
+          <label>{{ 'leads.message' | translate }}:</label>
+          <p class="message-text">{{ selectedLead.message }}</p>
+        </div>
+        <div class="detail-row">
+          <label>{{ 'leads.date' | translate }}:</label>
+          <span>{{ selectedLead.created_at | date:'medium' }}</span>
+        </div>
+        <div class="detail-row" *ngIf="selectedLead.is_processed">
+          <label>{{ 'leads.processedAt' | translate }}:</label>
+          <span>{{ selectedLead.processed_at | date:'medium' }}</span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="closeModal()">
+          {{ 'common.close' | translate }}
+        </button>
+        <button class="btn btn-success" *ngIf="!selectedLead.is_processed" (click)="markAsProcessed(selectedLead)">
+          ✓ {{ 'leads.markProcessed' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

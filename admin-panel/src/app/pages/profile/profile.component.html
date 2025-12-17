@@ -1,0 +1,269 @@
+<div class="profile-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <span class="icon">👤</span>
+        {{ 'profile.title' | translate }}
+      </h1>
+      <p class="page-subtitle">{{ 'profile.subtitle' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar-section">
+          <div class="avatar-large" *ngIf="!avatar">
+            {{ getInitials() }}
+          </div>
+          <img [src]="avatar" [alt]="name" class="avatar-large" *ngIf="avatar">
+          <div class="avatar-info">
+            <h2>{{ name || 'Admin' }}</h2>
+            <p>{{ email }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-body">
+        <!-- Update Profile Form -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <span class="icon">✏️</span>
+            {{ 'profile.updateProfile' | translate }}
+          </h3>
+
+          <!-- Success Message -->
+          <div class="alert alert-success" *ngIf="successMessage">
+            <span class="alert-icon">✅</span>
+            {{ successMessage }}
+          </div>
+
+          <!-- Error Message -->
+          <div class="alert alert-error" *ngIf="errorMessage">
+            <span class="alert-icon">❌</span>
+            {{ errorMessage }}
+          </div>
+
+          <form (ngSubmit)="updateProfile()" class="profile-form">
+            <!-- Name Field -->
+            <div class="form-group">
+              <label for="name">
+                <span class="icon">👤</span>
+                {{ 'profile.name' | translate }}
+              </label>
+              <input
+                type="text"
+                id="name"
+                [(ngModel)]="name"
+                name="name"
+                [placeholder]="'profile.namePlaceholder' | translate"
+                class="form-control"
+                required
+              >
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email">
+                <span class="icon">📧</span>
+                {{ 'profile.email' | translate }}
+              </label>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                [placeholder]="'profile.emailPlaceholder' | translate"
+                class="form-control"
+                required
+              >
+            </div>
+
+            <!-- Avatar URL Field -->
+            <div class="form-group">
+              <label for="avatar">
+                <span class="icon">🖼️</span>
+                {{ 'profile.avatar' | translate }}
+                <span class="optional">({{ 'profile.optional' | translate }})</span>
+              </label>
+              <input
+                type="url"
+                id="avatar"
+                [(ngModel)]="avatar"
+                name="avatar"
+                [placeholder]="'profile.avatarPlaceholder' | translate"
+                class="form-control"
+              >
+              <small class="form-hint">{{ 'profile.avatarHint' | translate }}</small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" [disabled]="saving || !name || !email">
+                <span class="btn-icon" *ngIf="!saving">💾</span>
+                <span class="spinner" *ngIf="saving"></span>
+                {{ saving ? ('common.saving' | translate) : ('profile.saveProfile' | translate) }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Change Password Form -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <span class="icon">🔐</span>
+            {{ 'profile.changePassword' | translate }}
+          </h3>
+
+          <!-- Success Message -->
+          <div class="alert alert-success" *ngIf="passwordSuccessMessage">
+            <span class="alert-icon">✅</span>
+            {{ passwordSuccessMessage }}
+          </div>
+
+          <!-- Error Message -->
+          <div class="alert alert-error" *ngIf="passwordErrorMessage">
+            <span class="alert-icon">❌</span>
+            {{ passwordErrorMessage }}
+          </div>
+
+          <form (ngSubmit)="updatePassword()" class="password-form">
+            <!-- Current Password -->
+            <div class="form-group">
+              <label for="currentPassword">
+                <span class="icon">🔑</span>
+                {{ 'profile.currentPassword' | translate }}
+              </label>
+              <div class="password-input-wrapper">
+                <input
+                  [type]="showCurrentPassword ? 'text' : 'password'"
+                  id="currentPassword"
+                  [(ngModel)]="currentPassword"
+                  name="currentPassword"
+                  [placeholder]="'profile.currentPasswordPlaceholder' | translate"
+                  class="form-control"
+                  required
+                >
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="togglePasswordVisibility('current')"
+                >
+                  {{ showCurrentPassword ? '👁️' : '👁️‍🗨️' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- New Password -->
+            <div class="form-group">
+              <label for="newPassword">
+                <span class="icon">🔒</span>
+                {{ 'profile.newPassword' | translate }}
+              </label>
+              <div class="password-input-wrapper">
+                <input
+                  [type]="showNewPassword ? 'text' : 'password'"
+                  id="newPassword"
+                  [(ngModel)]="newPassword"
+                  name="newPassword"
+                  [placeholder]="'profile.newPasswordPlaceholder' | translate"
+                  class="form-control"
+                  required
+                  minlength="8"
+                >
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="togglePasswordVisibility('new')"
+                >
+                  {{ showNewPassword ? '👁️' : '👁️‍🗨️' }}
+                </button>
+              </div>
+              <small class="form-hint">{{ 'profile.passwordHint' | translate }}</small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="confirmPassword">
+                <span class="icon">🔒</span>
+                {{ 'profile.confirmPassword' | translate }}
+              </label>
+              <div class="password-input-wrapper">
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  id="confirmPassword"
+                  [(ngModel)]="confirmPassword"
+                  name="confirmPassword"
+                  [placeholder]="'profile.confirmPasswordPlaceholder' | translate"
+                  class="form-control"
+                  required
+                  minlength="8"
+                >
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="togglePasswordVisibility('confirm')"
+                >
+                  {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="saving || !currentPassword || !newPassword || !confirmPassword"
+              >
+                <span class="btn-icon" *ngIf="!saving">🔐</span>
+                <span class="spinner" *ngIf="saving"></span>
+                {{ saving ? ('common.saving' | translate) : ('profile.updatePassword' | translate) }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Tips -->
+    <div class="tips-card">
+      <h3 class="tips-title">
+        <span class="icon">💡</span>
+        {{ 'profile.securityTips' | translate }}
+      </h3>
+      <ul class="tips-list">
+        <li>
+          <span class="tip-icon">✅</span>
+          {{ 'profile.tip1' | translate }}
+        </li>
+        <li>
+          <span class="tip-icon">✅</span>
+          {{ 'profile.tip2' | translate }}
+        </li>
+        <li>
+          <span class="tip-icon">✅</span>
+          {{ 'profile.tip3' | translate }}
+        </li>
+        <li>
+          <span class="tip-icon">✅</span>
+          {{ 'profile.tip4' | translate }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loading-content">
+      <div class="spinner-large"></div>
+      <p>{{ 'common.loading' | translate }}</p>
+    </div>
+  </div>
+</div>

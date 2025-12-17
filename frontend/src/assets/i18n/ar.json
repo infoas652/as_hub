@@ -1,0 +1,180 @@
+{
+  "header": {
+    "home": "الرئيسية",
+    "services": "الخدمات",
+    "pricing": "الأسعار",
+    "features": "المميزات",
+    "testimonials": "آراء العملاء",
+    "faq": "الأسئلة الشائعة",
+    "contact": "اتصل بنا",
+    "getStarted": "ابدأ الآن",
+    "requestDemo": "طلب عرض توضيحي"
+  },
+  "hero": {
+    "title": "حوّل عملك مع AS Hub",
+    "subtitle": "حلول ويب وموبايل احترافية مصممة خصيصاً لاحتياجاتك",
+    "description": "نقدم حلولاً رقمية متطورة تدفع النمو والابتكار لعملك",
+    "ctaDemo": "طلب عرض توضيحي",
+    "ctaStart": "ابدأ الآن",
+    "pricingHint": "خطط تبدأ من 20 دولار شهرياً"
+  },
+  "services": {
+    "title": "خدماتنا",
+    "subtitle": "حلول رقمية شاملة لعملك",
+    "viewAll": "عرض جميع الخدمات",
+    "learnMore": "اعرف المزيد"
+  },
+  "pricing": {
+    "title": "خطط أسعار مرنة",
+    "subtitle": "اختر الحل المثالي لاحتياجات عملك",
+    "monthly": "شهري",
+    "yearly": "سنوي",
+    "month": "شهر",
+    "year": "سنة",
+    "perMonth": "/شهر",
+    "perYear": "/سنة",
+    "popular": "شائع",
+    "mostPopular": "الأكثر شعبية",
+    "selectPlan": "اختر الخطة",
+    "getStarted": "ابدأ الآن",
+    "contactUs": "اتصل بنا",
+    "save": "وفر",
+    "saveUpTo": "وفر حتى",
+    "moneyBackGuarantee": "ضمان استرداد الأموال لمدة 30 يوماً",
+    "compareFeatures": "ما المتضمن",
+    "allPlansInclude": "جميع الخطط تتضمن هذه المميزات الرائعة",
+    "fastDelivery": "تسليم سريع",
+    "fastDeliveryDesc": "وقت تسليم سريع لمشروعك",
+    "support247": "دعم 24/7",
+    "support247Desc": "دعم العملاء على مدار الساعة",
+    "securePayment": "دفع آمن",
+    "securePaymentDesc": "معاملات آمنة ومشفرة",
+    "freeUpdates": "تحديثات مجانية",
+    "freeUpdatesDesc": "تحديثات وتحسينات منتظمة",
+    "frequentlyAsked": "الأسئلة الشائعة",
+    "faq1Question": "هل يمكنني تغيير خطتي لاحقاً؟",
+    "faq1Answer": "نعم، يمكنك الترقية أو التخفيض في أي وقت. ستنعكس التغييرات في دورة الفوترة التالية.",
+    "faq2Question": "ما هي طرق الدفع المقبولة؟",
+    "faq2Answer": "نقبل جميع بطاقات الائتمان الرئيسية وPayPal والتحويلات البنكية للخطط السنوية.",
+    "faq3Question": "هل هناك رسوم إعداد؟",
+    "faq3Answer": "لا، لا توجد رسوم مخفية. السعر الذي تراه هو ما تدفعه.",
+    "faq4Question": "هل تقدمون استرداد الأموال؟",
+    "faq4Answer": "نعم، نقدم ضمان استرداد الأموال لمدة 30 يوماً إذا لم تكن راضياً عن خدمتنا.",
+    "notSureWhichPlan": "غير متأكد من الخطة المناسبة لك؟",
+    "contactUsForCustom": "اتصل بنا للحصول على حل مخصص يناسب احتياجاتك الخاصة",
+    "noPricing": "لا توجد خطط أسعار متاحة",
+    "noPricingDescription": "يرجى التحقق لاحقاً أو الاتصال بنا للحصول على أسعار مخصصة"
+  },
+  "features": {
+    "title": "لماذا تختار AS Hub",
+    "subtitle": "مميزات قوية لتسريع نمو عملك"
+  },
+  "howItWorks": {
+    "title": "كيف يعمل",
+    "subtitle": "ابدأ في ثلاث خطوات بسيطة",
+    "step1": {
+      "title": "التسجيل",
+      "description": "أنشئ حسابك في دقائق واختر خطتك"
+    },
+    "step2": {
+      "title": "التخصيص",
+      "description": "خصص الحل ليتناسب مع احتياجات عملك"
+    },
+    "step3": {
+      "title": "الإطلاق",
+      "description": "انطلق وابدأ في تنمية عملك"
+    }
+  },
+  "testimonials": {
+    "title": "ماذا يقول عملاؤنا",
+    "subtitle": "موثوق به من قبل الشركات في جميع أنحاء العالم"
+  },
+  "faq": {
+    "title": "الأسئلة الشائعة",
+    "subtitle": "اعثر على إجابات للأسئلة الشائعة"
+  },
+  "contact": {
+    "title": "تواصل معنا",
+    "subtitle": "لديك سؤال؟ نحن نحب أن نسمع منك",
+    "name": "الاسم الكامل",
+    "namePlaceholder": "أدخل اسمك",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "phone": "رقم الهاتف",
+    "phonePlaceholder": "أدخل رقم هاتفك",
+    "company": "اسم الشركة",
+    "companyPlaceholder": "أدخل اسم شركتك",
+    "plan": "الخطة المهتم بها",
+    "planPlaceholder": "اختر خطة",
+    "message": "الرسالة",
+    "messagePlaceholder": "أخبرنا عن مشروعك",
+    "submit": "إرسال الرسالة",
+    "sending": "جاري الإرسال...",
+    "success": "شكراً لك! سنتواصل معك قريباً.",
+    "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+    "address": {
+      "title": "العنوان",
+      "value": "123 شارع الأعمال، مدينة التقنية، TC 12345"
+    },
+    "email": {
+      "title": "البريد الإلكتروني",
+      "value": "info@ashub.com"
+    },
+    "phone": {
+      "title": "الهاتف",
+      "value": "+970 595 466 383"
+    },
+    "hours": {
+      "title": "ساعات العمل",
+      "value": "الإثنين - الجمعة: 9:00 صباحاً - 6:00 مساءً"
+    },
+    "followUs": "تابعنا",
+    "form": {
+      "name": "الاسم الكامل",
+      "namePlaceholder": "أحمد محمد",
+      "nameRequired": "الاسم مطلوب",
+      "nameMinLength": "يجب أن يكون الاسم حرفين على الأقل",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "ahmad@example.com",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "+970 595 466 383",
+      "phoneInvalid": "يرجى إدخال رقم هاتف صحيح",
+      "company": "اسم الشركة",
+      "companyPlaceholder": "شركتك",
+      "plan": "الخطة المهتم بها",
+      "selectPlan": "اختر خطة",
+      "message": "الرسالة",
+      "messagePlaceholder": "أخبرنا عن مشروعك...",
+      "messageRequired": "الرسالة مطلوبة",
+      "messageMinLength": "يجب أن تكون الرسالة 10 أحرف على الأقل",
+      "submit": "إرسال الرسالة",
+      "sending": "جاري الإرسال...",
+      "successMessage": "شكراً لك! سنتواصل معك قريباً.",
+      "errorMessage": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "footer": {
+    "tagline": "شريكك في التحول الرقمي",
+    "quickLinks": "روابط سريعة",
+    "services": "الخدمات",
+    "contact": "اتصل بنا",
+    "followUs": "تابعنا",
+    "rights": "جميع الحقوق محفوظة",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "close": "إغلاق",
+    "readMore": "اقرأ المزيد",
+    "learnMore": "اعرف المزيد",
+    "getStarted": "ابدأ الآن",
+    "contactUs": "اتصل بنا"
+  }
+}

@@ -1,0 +1,243 @@
+.features-section {
+  padding: 80px 0;
+  background: white;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+    border-radius: 2px;
+  }
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: #64748b;
+  margin-top: 24px;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-radius: 16px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: #3b82f6;
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+      color: white;
+    }
+  }
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+
+  i {
+    font-size: 36px;
+    color: #3b82f6;
+    transition: color 0.3s ease;
+  }
+}
+
+.feature-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-description {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  animation: pulse 2s ease-in-out infinite;
+
+  i {
+    font-size: 60px;
+    color: #f59e0b;
+  }
+}
+
+.empty-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.empty-description {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.empty-illustration {
+  margin-top: 40px;
+  opacity: 0.6;
+
+  svg {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+// Animations
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .features-section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .feature-card {
+    padding: 30px 20px;
+  }
+
+  .empty-icon {
+    width: 100px;
+    height: 100px;
+
+    i {
+      font-size: 50px;
+    }
+  }
+
+  .empty-title {
+    font-size: 24px;
+  }
+}

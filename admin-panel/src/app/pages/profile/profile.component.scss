@@ -1,0 +1,595 @@
+// ============================================
+// Profile Page Styles
+// ============================================
+
+// Variables
+$primary: #1e3a8a;
+$primary-light: #3b82f6;
+$secondary: #0ea5e9;
+$success: #10b981;
+$danger: #ef4444;
+$warning: #f59e0b;
+$dark: #1f2937;
+$gray: #6b7280;
+$light-gray: #f3f4f6;
+$border: #e5e7eb;
+$white: #ffffff;
+
+$shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+// ============================================
+// Container
+// ============================================
+.profile-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// ============================================
+// Page Header
+// ============================================
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid $border;
+
+  .header-content {
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $dark;
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .icon {
+        font-size: 2rem;
+      }
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      color: $gray;
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// Profile Content
+// ============================================
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+// ============================================
+// Profile Card
+// ============================================
+.profile-card {
+  background: $white;
+  border-radius: 16px;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+  animation: slideInLeft 0.6s ease-out;
+
+  .profile-header {
+    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .avatar-section {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      .avatar-large {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba($white, 0.2);
+        backdrop-filter: blur(10px);
+        border: 4px solid rgba($white, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $white;
+        flex-shrink: 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        object-fit: cover;
+      }
+
+      .avatar-info {
+        h2 {
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: $white;
+          margin: 0 0 0.5rem 0;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+          font-size: 1rem;
+          color: rgba($white, 0.9);
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .profile-body {
+    padding: 2rem;
+  }
+}
+
+// ============================================
+// Form Section
+// ============================================
+.form-section {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $dark;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// ============================================
+// Forms
+// ============================================
+.profile-form,
+.password-form {
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: $dark;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+
+      .icon {
+        font-size: 1rem;
+      }
+
+      .optional {
+        font-weight: 400;
+        color: $gray;
+        font-size: 0.75rem;
+      }
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid $border;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: $white;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 4px rgba($primary, 0.1);
+      }
+
+      &::placeholder {
+        color: lighten($gray, 10%);
+      }
+    }
+
+    .form-hint {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: $gray;
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+
+    .btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+
+      &.btn-primary {
+        background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+        color: $white;
+        box-shadow: $shadow;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: $shadow-lg;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      .btn-icon {
+        font-size: 1.25rem;
+      }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba($white, 0.3);
+        border-top-color: $white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+    }
+  }
+}
+
+// ============================================
+// Password Input Wrapper
+// ============================================
+.password-input-wrapper {
+  position: relative;
+
+  .form-control {
+    padding-right: 3rem;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+
+    &:hover {
+      background: $light-gray;
+    }
+  }
+}
+
+// ============================================
+// Alerts
+// ============================================
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: slideInDown 0.4s ease-out;
+
+  .alert-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &.alert-success {
+    background: rgba($success, 0.1);
+    color: darken($success, 10%);
+    border: 1px solid rgba($success, 0.3);
+  }
+
+  &.alert-error {
+    background: rgba($danger, 0.1);
+    color: darken($danger, 10%);
+    border: 1px solid rgba($danger, 0.3);
+  }
+}
+
+// ============================================
+// Divider
+// ============================================
+.divider {
+  height: 1px;
+  background: $border;
+  margin: 2rem 0;
+}
+
+// ============================================
+// Tips Card
+// ============================================
+.tips-card {
+  background: $white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: $shadow-lg;
+  animation: slideInRight 0.6s ease-out;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+
+  .tips-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $dark;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  .tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 1rem;
+      background: $light-gray;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      color: $dark;
+      transition: all 0.3s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        background: darken($light-gray, 3%);
+        transform: translateX(4px);
+      }
+
+      .tip-icon {
+        font-size: 1rem;
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+      }
+    }
+  }
+}
+
+// ============================================
+// Loading Overlay
+// ============================================
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($white, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+
+  .loading-content {
+    text-align: center;
+
+    .spinner-large {
+      width: 60px;
+      height: 60px;
+      border: 4px solid $border;
+      border-top-color: $primary;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $dark;
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// Animations
+// ============================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+// ============================================
+// Responsive Design
+// ============================================
+@media (max-width: 1024px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+
+  .tips-card {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
+  }
+
+  .page-header {
+    .header-content {
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .profile-card {
+    .profile-header {
+      padding: 2rem 1.5rem;
+
+      .avatar-section {
+        flex-direction: column;
+        text-align: center;
+
+        .avatar-large {
+          width: 80px;
+          height: 80px;
+          font-size: 2rem;
+        }
+
+        .avatar-info {
+          h2 {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+
+    .profile-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .tips-card {
+    padding: 1.5rem;
+  }
+}
+
+// ============================================
+// RTL Support
+// ============================================
+[dir="rtl"] {
+  .password-input-wrapper {
+    .form-control {
+      padding-right: 1rem;
+      padding-left: 3rem;
+    }
+
+    .password-toggle {
+      right: auto;
+      left: 0.75rem;
+    }
+  }
+
+  .tips-list li:hover {
+    transform: translateX(-4px);
+  }
+}

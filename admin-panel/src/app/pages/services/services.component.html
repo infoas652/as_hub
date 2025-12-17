@@ -1,0 +1,259 @@
+<div class="services-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">{{ 'services.title' | translate }}</h1>
+      <p class="page-subtitle">{{ 'services.subtitle' | translate }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="refreshData()">
+        <span class="icon">🔄</span>
+        {{ 'common.refresh' | translate }}
+      </button>
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="icon">➕</span>
+        {{ 'services.add' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Language Filter -->
+  <div class="filters-bar">
+    <div class="filter-group">
+      <label>{{ 'common.language' | translate }}:</label>
+      <div class="btn-group">
+        <button 
+          class="btn btn-sm" 
+          [class.active]="selectedLanguage === 'en'"
+          (click)="filterByLanguage('en')">
+          🇬🇧 English
+        </button>
+        <button 
+          class="btn btn-sm" 
+          [class.active]="selectedLanguage === 'ar'"
+          (click)="filterByLanguage('ar')">
+          🇸🇦 العربية
+        </button>
+        <button 
+          class="btn btn-sm" 
+          [class.active]="selectedLanguage === 'all'"
+          (click)="filterByLanguage('all')">
+          {{ 'common.all' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        [placeholder]="'common.search' | translate"
+        class="form-control">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <!-- Services Cards Grid -->
+  <div class="services-grid" *ngIf="!loading && filteredServices.length > 0">
+    <div class="service-card" *ngFor="let service of filteredServices">
+      <!-- Card Header -->
+      <div class="card-header">
+        <div class="service-icon" *ngIf="getIconDisplay(service) === 'emoji'">
+          {{ service.icon || '🛠️' }}
+        </div>
+        <img *ngIf="getIconDisplay(service) === 'image'" 
+             [src]="getIconUrl(service.icon)" 
+             [alt]="service.title"
+             class="service-icon-img">
+        <div class="language-badge" [class]="service.language">
+          {{ service.language === 'en' ? '🇬🇧' : '🇸🇦' }}
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body">
+        <h3 class="service-name">{{ service.title }}</h3>
+        <p class="service-description">{{ service.description }}</p>
+
+        <!-- Features List -->
+        <div class="features-section" *ngIf="service.features && service.features.length > 0">
+          <h4>{{ 'services.features' | translate }}</h4>
+          <ul class="features-list">
+            <li *ngFor="let feature of service.features" class="feature-item">
+              <span class="check-icon">✓</span>
+              <span>{{ feature }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer">
+        <div class="status-badge" [class.active]="service.is_active">
+          <span class="status-dot"></span>
+          {{ service.is_active ? ('common.active' | translate) : ('common.inactive' | translate) }}
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-icon" (click)="toggleStatus(service)" [title]="'common.toggleStatus' | translate">
+            {{ service.is_active ? '👁️' : '🚫' }}
+          </button>
+          <button class="btn btn-icon" (click)="editService(service)" [title]="'common.edit' | translate">
+            ✏️
+          </button>
+          <button class="btn btn-icon btn-danger" (click)="deleteService(service)" [title]="'common.delete' | translate">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && filteredServices.length === 0">
+    <span class="empty-icon">🛠️</span>
+    <h3>{{ 'services.noServices' | translate }}</h3>
+    <p>{{ 'services.noServicesDesc' | translate }}</p>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <span class="icon">➕</span>
+      {{ 'services.add' | translate }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>{{ 'common.loading' | translate }}</p>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ isEditMode ? ('services.edit' | translate) : ('services.add' | translate) }}</h2>
+      <button class="btn-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="serviceForm" (ngSubmit)="saveService()">
+        <!-- Language Selection -->
+        <div class="form-group">
+          <label>{{ 'common.language' | translate }} *</label>
+          <select formControlName="language" class="form-control">
+            <option value="en">🇬🇧 English</option>
+            <option value="ar">🇸🇦 العربية</option>
+          </select>
+        </div>
+
+        <!-- Service Name -->
+        <div class="form-group">
+          <label>{{ 'services.name' | translate }} *</label>
+          <input type="text" formControlName="title" class="form-control" 
+                 [placeholder]="'services.namePlaceholder' | translate">
+          <div class="error-message" *ngIf="serviceForm.get('title')?.invalid && serviceForm.get('title')?.touched">
+            {{ 'common.required' | translate }}
+          </div>
+        </div>
+
+        <!-- Icon Type Toggle -->
+        <div class="form-group">
+          <label>{{ 'services.icon' | translate }}</label>
+          <div class="icon-type-toggle">
+            <button type="button" 
+                    class="btn btn-sm" 
+                    [class.active]="useEmoji"
+                    (click)="toggleIconType()">
+              😀 Emoji
+            </button>
+            <button type="button" 
+                    class="btn btn-sm" 
+                    [class.active]="!useEmoji"
+                    (click)="toggleIconType()">
+              🖼️ Image
+            </button>
+          </div>
+        </div>
+
+        <!-- Emoji Input -->
+        <div class="form-group" *ngIf="useEmoji">
+          <input type="text" formControlName="icon" class="form-control" 
+                 placeholder="🌐">
+          <small class="form-hint">{{ 'services.iconHint' | translate }}</small>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group" *ngIf="!useEmoji">
+          <div class="image-upload-area">
+            <div class="upload-box" *ngIf="!imagePreview">
+              <input type="file" 
+                     id="iconFile" 
+                     accept="image/*"
+                     (change)="onFileSelected($event)"
+                     style="display: none;">
+              <label for="iconFile" class="upload-label">
+                <span class="upload-icon">📁</span>
+                <span class="upload-text">Click to upload image</span>
+                <span class="upload-hint">PNG, JPG, GIF, SVG (Max 2MB)</span>
+              </label>
+            </div>
+            <div class="image-preview" *ngIf="imagePreview">
+              <img [src]="imagePreview" alt="Preview">
+              <button type="button" class="btn-remove-image" (click)="removeImage()">
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label>{{ 'services.description' | translate }}</label>
+          <textarea formControlName="description" class="form-control" rows="3"
+                    [placeholder]="'services.descriptionPlaceholder' | translate"></textarea>
+        </div>
+
+        <!-- Features -->
+        <div class="form-group">
+          <label>{{ 'services.features' | translate }}</label>
+          <div class="features-input">
+            <div class="feature-item-input" *ngFor="let feature of features.controls; let i = index">
+              <input type="text" [formControl]="$any(feature)" class="form-control" 
+                     [placeholder]="'services.featurePlaceholder' | translate">
+              <button type="button" class="btn btn-icon btn-danger" (click)="removeFeature(i)">
+                🗑️
+              </button>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="addFeature()">
+              ➕ {{ 'services.addFeature' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ 'services.order' | translate }}</label>
+            <input type="number" formControlName="order" class="form-control" 
+                   placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="is_active">
+              <span>👁️ {{ 'services.markActive' | translate }}</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
+            {{ 'common.cancel' | translate }}
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="serviceForm.invalid || saving">
+            <span *ngIf="!saving">{{ 'common.save' | translate }}</span>
+            <span *ngIf="saving">{{ 'common.saving' | translate }}...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<section id="contact" class="contact-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <h2 class="section-title">{{ 'contact.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'contact.subtitle' | translate }}</p>
+    </div>
+
+    <div class="contact-wrapper">
+      <!-- Contact Info -->
+      <div class="contact-info" data-aos="fade-right">
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <h3>{{ 'contact.address.title' | translate }}</h3>
+          <p>{{ 'contact.address.value' | translate }}</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-envelope-fill"></i>
+          </div>
+          <h3>{{ 'contact.email.title' | translate }}</h3>
+          <p><a href="mailto:info@ashub.com">info&#64;ashub.com</a></p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-telephone-fill"></i>
+          </div>
+          <h3>{{ 'contact.phone.title' | translate }}</h3>
+          <p><a href="tel:+15551234567">+970 595 466 383</a></p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-clock-fill"></i>
+          </div>
+          <h3>{{ 'contact.hours.title' | translate }}</h3>
+          <p>{{ 'contact.hours.value' | translate }}</p>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+          <h3>{{ 'contact.followUs' | translate }}</h3>
+          <div class="social-icons">
+            <a href="https://facebook.com/ashub" target="_blank" rel="noopener" aria-label="Facebook">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="https://twitter.com/ashub" target="_blank" rel="noopener" aria-label="Twitter">
+              <i class="bi bi-twitter"></i>
+            </a>
+            <a href="https://linkedin.com/company/ashub" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a href="https://instagram.com/ashub" target="_blank" rel="noopener" aria-label="Instagram">
+              <i class="bi bi-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form-wrapper" data-aos="fade-left">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <!-- Success Message -->
+          <div *ngIf="success" class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ 'contact.form.successMessage' | translate }}
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="error" class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage | translate }}
+          </div>
+
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name">{{ 'contact.form.name' | translate }} <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="name"
+              class="form-control" 
+              formControlName="name"
+              [class.is-invalid]="submitted && f['name'].errors"
+              [placeholder]="'contact.form.namePlaceholder' | translate"
+            >
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <span *ngIf="f['name'].errors['required']">{{ 'contact.form.nameRequired' | translate }}</span>
+              <span *ngIf="f['name'].errors['minlength']">{{ 'contact.form.nameMinLength' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email">{{ 'contact.form.email' | translate }} <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="email"
+              class="form-control" 
+              formControlName="email"
+              [class.is-invalid]="submitted && f['email'].errors"
+              [placeholder]="'contact.form.emailPlaceholder' | translate"
+            >
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <span *ngIf="f['email'].errors['required']">{{ 'contact.form.emailRequired' | translate }}</span>
+              <span *ngIf="f['email'].errors['email']">{{ 'contact.form.emailInvalid' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- Phone Field -->
+          <div class="form-group">
+            <label for="phone">{{ 'contact.form.phone' | translate }}</label>
+            <input 
+              type="tel" 
+              id="phone"
+              class="form-control" 
+              formControlName="phone"
+              [class.is-invalid]="submitted && f['phone'].errors"
+              [placeholder]="'contact.form.phonePlaceholder' | translate"
+            >
+            <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+              <span *ngIf="f['phone'].errors['pattern']">{{ 'contact.form.phoneInvalid' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- Company Field -->
+          <div class="form-group">
+            <label for="company">{{ 'contact.form.company' | translate }}</label>
+            <input 
+              type="text" 
+              id="company"
+              class="form-control" 
+              formControlName="company"
+              [placeholder]="'contact.form.companyPlaceholder' | translate"
+            >
+          </div>
+
+          <!-- Plan Selection -->
+          <div class="form-group">
+            <label for="plan">{{ 'contact.form.plan' | translate }}</label>
+            <select id="plan" class="form-control" formControlName="plan">
+              <option value="">{{ 'contact.form.selectPlan' | translate }}</option>
+              <option value="starter">{{ 'pricing.starter.name' | translate }}</option>
+              <option value="professional">{{ 'pricing.professional.name' | translate }}</option>
+              <option value="enterprise">{{ 'pricing.enterprise.name' | translate }}</option>
+            </select>
+          </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <label for="message">{{ 'contact.form.message' | translate }} <span class="required">*</span></label>
+            <textarea 
+              id="message"
+              class="form-control" 
+              formControlName="message"
+              rows="5"
+              [class.is-invalid]="submitted && f['message'].errors"
+              [placeholder]="'contact.form.messagePlaceholder' | translate"
+            ></textarea>
+            <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
+              <span *ngIf="f['message'].errors['required']">{{ 'contact.form.messageRequired' | translate }}</span>
+              <span *ngIf="f['message'].errors['minlength']">{{ 'contact.form.messageMinLength' | translate }}</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-primary btn-lg w-100"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">
+              {{ 'contact.form.submit' | translate }}
+              <i class="bi bi-send ms-2"></i>
+            </span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ 'contact.form.sending' | translate }}
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

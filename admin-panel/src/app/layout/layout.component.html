@@ -1,0 +1,100 @@
+<!-- Main Container -->
+<div class="admin-layout" [class.sidebar-closed]="!isSidebarOpen" [class.rtl]="currentLang === 'ar'">
+  
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="isSidebarOpen">
+    <!-- Logo -->
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="AS Hub Logo" class="logo-icon">
+        <span class="logo-text" *ngIf="isSidebarOpen">AS Hub</span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <a 
+        *ngFor="let item of menuItems" 
+        [routerLink]="item.route"
+        class="nav-item"
+        [class.active]="isActive(item.route)"
+        [title]="translate.instant('menu.' + item.label)">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label" *ngIf="isSidebarOpen">
+          {{ 'menu.' + item.label | translate }}
+        </span>
+        <span class="nav-badge" *ngIf="item.badge && isSidebarOpen">
+          {{ item.badge }}
+        </span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer" *ngIf="isSidebarOpen">
+      <div class="version">v1.0.0</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    
+    <!-- Top Header -->
+    <header class="top-header">
+      <!-- Left Section -->
+      <div class="header-left">
+        <button class="toggle-btn" (click)="toggleSidebar()" [title]="'toggleSidebar' | translate">
+          <span class="hamburger-icon">☰</span>
+        </button>
+        <h1 class="page-title">{{ 'appName' | translate }}</h1>
+      </div>
+
+      <!-- Right Section -->
+      <div class="header-right">
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+          <button 
+            class="lang-btn" 
+            [class.active]="currentLang === 'en'"
+            (click)="switchLanguage('en')"
+            title="English">
+            🇬🇧 EN
+          </button>
+          <button 
+            class="lang-btn" 
+            [class.active]="currentLang === 'ar'"
+            (click)="switchLanguage('ar')"
+            title="العربية">
+            🇸🇦 AR
+          </button>
+        </div>
+
+        <!-- Admin Profile -->
+        <div class="admin-profile">
+          <button class="profile-btn" routerLink="/profile" [title]="'menu.profile' | translate">
+            <span class="profile-icon">👤</span>
+            <span class="profile-text">Admin</span>
+          </button>
+          <button class="logout-btn" (click)="logout()" [title]="'logout' | translate">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">{{ 'logout' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <div class="footer-content">
+        <p>© 2024 AS Hub. {{ 'allRightsReserved' | translate }}</p>
+      </div>
+    </footer>
+  </div>
+</div>

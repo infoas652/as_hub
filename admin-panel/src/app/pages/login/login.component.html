@@ -1,0 +1,61 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+        <img src="assets/images/logo.png" alt="AS Hub Logo" class="logo-image">
+      </div>
+      <h1>{{ 'app.title' | translate }}</h1>
+      <p>{{ 'auth.login' | translate }}</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">{{ 'auth.email' | translate }}</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          [(ngModel)]="email"
+          name="email"
+          [placeholder]="'auth.email' | translate"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">{{ 'auth.password' | translate }}</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+          [placeholder]="'auth.password' | translate"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="remember" />
+        <label class="form-check-label" for="remember">
+          {{ 'auth.remember' | translate }}
+        </label>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="loading"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ 'auth.loginButton' | translate }}
+      </button>
+    </form>
+  </div>
+</div>

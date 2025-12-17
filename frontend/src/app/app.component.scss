@@ -1,0 +1,15 @@
+// AS Hub - Main App Component Styles
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+// RTL Support
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="ltr"] {
+  text-align: left;
+}

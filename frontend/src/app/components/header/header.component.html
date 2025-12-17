@@ -1,0 +1,61 @@
+<header class="header" [class.scrolled]="isScrolled">
+  <div class="container">
+    <nav class="navbar">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="#home" (click)="scrollToSection('#home')">
+          <img src="assets/images/logo.png" alt="AS Hub Logo" class="logo-image">
+          <span class="logo-text">AS Hub</span>
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <ul class="nav-menu desktop-menu">
+        <li *ngFor="let item of menuItems" class="nav-item">
+          <a [href]="item.link" (click)="scrollToSection(item.link); $event.preventDefault()" class="nav-link">
+            {{ item.label | translate }}
+          </a>
+        </li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <button class="language-btn" (click)="toggleLanguage()" [attr.aria-label]="'Switch Language'">
+          <span class="language-icon">{{ currentLanguage === 'en' ? '🇬🇧' : '🇸🇦' }}</span>
+          <span class="language-text">{{ currentLanguage === 'en' ? 'EN' : 'AR' }}</span>
+        </button>
+
+        <!-- CTA Button -->
+        <a href="#contact" (click)="scrollToSection('#contact'); $event.preventDefault()" class="btn btn-primary">
+          {{ 'header.getStarted' | translate }}
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [attr.aria-label]="'Toggle Menu'">
+          <span class="hamburger" [class.active]="isMobileMenuOpen">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+      <ul class="mobile-nav-menu">
+        <li *ngFor="let item of menuItems" class="mobile-nav-item">
+          <a [href]="item.link" (click)="scrollToSection(item.link); $event.preventDefault()" class="mobile-nav-link">
+            {{ item.label | translate }}
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#contact" (click)="scrollToSection('#contact'); $event.preventDefault()" class="mobile-nav-link btn-mobile">
+            {{ 'header.getStarted' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

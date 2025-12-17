@@ -1,0 +1,57 @@
+<section id="services" class="services-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title">{{ 'services.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'services.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Services Grid -->
+    <div *ngIf="!loading && services.length > 0" class="services-grid">
+      <div *ngFor="let service of services" class="service-card animate-fade-in">
+        <div class="service-icon">
+          <span class="icon-emoji">{{ getIconClass(service.icon) }}</span>
+        </div>
+        <h3 class="service-title">{{ service.title }}</h3>
+        <p class="service-description">{{ service.description }}</p>
+        <ul class="service-features" *ngIf="service.features && service.features.length > 0">
+          <li *ngFor="let feature of service.features">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+        <a href="#contact" class="service-link">
+          {{ 'services.learnMore' | translate }}
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && services.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="bi bi-briefcase"></i>
+      </div>
+      <h3 class="empty-title">No Services Available Yet</h3>
+      <p class="empty-description">
+        Services will appear here once they are added from the Admin Panel.
+      </p>
+      <div class="empty-illustration">
+        <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="30" width="60" height="80" rx="8" fill="#E5E7EB"/>
+          <rect x="70" y="30" width="60" height="80" rx="8" fill="#D1D5DB"/>
+          <rect x="120" y="30" width="60" height="80" rx="8" fill="#E5E7EB"/>
+          <circle cx="50" cy="60" r="15" fill="#9CA3AF"/>
+          <circle cx="100" cy="60" r="15" fill="#6B7280"/>
+          <circle cx="150" cy="60" r="15" fill="#9CA3AF"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>

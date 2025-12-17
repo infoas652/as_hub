@@ -1,0 +1,265 @@
+<div class="features-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <i class="bi bi-star"></i>
+        {{ 'features.title' | translate }}
+      </h1>
+      <p class="subtitle">{{ 'features.subtitle' | translate }}</p>
+    </div>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <i class="bi bi-plus-lg"></i>
+      {{ 'features.addNew' | translate }}
+    </button>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        [placeholder]="'common.search' | translate"
+        class="form-control"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>{{ 'common.language' | translate }}:</label>
+      <select
+        [(ngModel)]="selectedLanguage"
+        (change)="onLanguageChange()"
+        class="form-select"
+      >
+        <option value="all">{{ 'common.all' | translate }}</option>
+        <option value="en">{{ 'common.english' | translate }}</option>
+        <option value="ar">{{ 'common.arabic' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="bi bi-star-fill"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ features.length }}</h3>
+        <p>{{ 'features.totalFeatures' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon active">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getActiveCount() }}</h3>
+        <p>{{ 'features.activeFeatures' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon inactive">
+        <i class="bi bi-x-circle-fill"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getInactiveCount() }}</h3>
+        <p>{{ 'features.inactiveFeatures' | translate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-border text-primary"></div>
+    <p>{{ 'common.loading' | translate }}</p>
+  </div>
+
+  <!-- Features Grid -->
+  <div *ngIf="!loading && filteredFeatures.length > 0" class="features-grid">
+    <div *ngFor="let feature of filteredFeatures; trackBy: trackByFeatureId" class="feature-card">
+      <div class="feature-header">
+        <div class="feature-icon">
+          <i [class]="getIconClass(feature.icon)"></i>
+        </div>
+        <div class="feature-actions">
+          <button
+            class="btn-icon"
+            [class.active]="feature.is_active"
+            (click)="toggleStatus(feature)"
+            [title]="feature.is_active ? ('common.active' | translate) : ('common.inactive' | translate)"
+          >
+            <i [class]="feature.is_active ? 'bi bi-toggle-on' : 'bi bi-toggle-off'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="feature-content">
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+
+      <div class="feature-meta">
+        <span class="language-badge" [class.ar]="feature.language === 'ar'">
+          {{ feature.language === 'en' ? 'EN' : 'AR' }}
+        </span>
+        <span class="order-badge">
+          <i class="bi bi-sort-numeric-down"></i>
+          {{ feature.order }}
+        </span>
+      </div>
+
+      <div class="feature-footer">
+        <button class="btn btn-sm btn-outline-primary" (click)="openEditModal(feature)">
+          <i class="bi bi-pencil"></i>
+          {{ 'common.edit' | translate }}
+        </button>
+        <button class="btn btn-sm btn-outline-danger" (click)="deleteFeature(feature)">
+          <i class="bi bi-trash"></i>
+          {{ 'common.delete' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredFeatures.length === 0" class="empty-state">
+    <i class="bi bi-star"></i>
+    <h3>{{ 'features.noFeatures' | translate }}</h3>
+    <p>{{ 'features.noFeaturesDesc' | translate }}</p>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <i class="bi bi-plus-lg"></i>
+      {{ 'features.addFirst' | translate }}
+    </button>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>
+        <i class="bi bi-star"></i>
+        {{ isEditMode ? ('features.editFeature' | translate) : ('features.addFeature' | translate) }}
+      </h2>
+      <button class="btn-close" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="saveFeature()">
+        <!-- Language Selection -->
+        <div class="form-group">
+          <label>
+            {{ 'common.language' | translate }}
+            <span class="required">*</span>
+          </label>
+          <select [(ngModel)]="currentFeature.language" name="language" class="form-control" required>
+            <option value="en">{{ 'common.english' | translate }}</option>
+            <option value="ar">{{ 'common.arabic' | translate }}</option>
+          </select>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label>
+            {{ 'features.featureTitle' | translate }}
+            <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="currentFeature.title"
+            name="title"
+            class="form-control"
+            [placeholder]="'features.titlePlaceholder' | translate"
+            required
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label>
+            {{ 'features.description' | translate }}
+            <span class="required">*</span>
+          </label>
+          <textarea
+            [(ngModel)]="currentFeature.description"
+            name="description"
+            class="form-control"
+            rows="4"
+            [placeholder]="'features.descriptionPlaceholder' | translate"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Icon Selection -->
+        <div class="form-group">
+          <label>
+            {{ 'features.icon' | translate }}
+            <span class="required">*</span>
+          </label>
+          <div class="icon-grid">
+            <div
+              *ngFor="let iconOption of iconOptions; trackBy: trackByIconValue"
+              class="icon-option"
+              [class.selected]="currentFeature.icon === iconOption.value"
+              (click)="currentFeature.icon = iconOption.value"
+            >
+              <i [class]="iconOption.value"></i>
+              <span>{{ iconOption.label }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order -->
+        <div class="form-group">
+          <label>
+            {{ 'common.order' | translate }}
+          </label>
+          <input
+            type="number"
+            [(ngModel)]="currentFeature.order"
+            name="order"
+            class="form-control"
+            min="0"
+          />
+          <small class="form-text">{{ 'features.orderHelp' | translate }}</small>
+        </div>
+
+        <!-- Active Status -->
+        <div class="form-group">
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              [(ngModel)]="currentFeature.is_active"
+              name="is_active"
+              class="form-check-input"
+              id="featureActive"
+            />
+            <label class="form-check-label" for="featureActive">
+              {{ 'common.active' | translate }}
+            </label>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
+            <i class="bi bi-x-lg"></i>
+            {{ 'common.cancel' | translate }}
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check-lg"></i>
+            {{ isEditMode ? ('common.update' | translate) : ('common.create' | translate) }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

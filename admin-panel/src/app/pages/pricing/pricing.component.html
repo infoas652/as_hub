@@ -1,0 +1,633 @@
+<div class="pricing-page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <i class="bi bi-tag-fill"></i>
+        Pricing Plans Management
+      </h1>
+      <p>Manage your pricing plans across different service types and tiers</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" (click)="exportPlans()">
+        <i class="bi bi-download"></i>
+        Export
+      </button>
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <i class="bi bi-plus-circle"></i>
+        Add New Plan
+      </button>
+    </div>
+  </div>
+
+  <!-- Enhanced Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card website-card" (click)="filterByServiceType('website')">
+      <div class="stat-icon">
+        <i class="bi bi-globe2"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ getPlanCountByCategory('website') }}</h3>
+        <p>Website Plans</p>
+        <div class="stat-meta">
+          <span class="active-count">{{ getActivePlansByCategory('website') }} Active</span>
+        </div>
+      </div>
+      <div class="stat-arrow">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+
+    <div class="stat-card app-card" (click)="filterByServiceType('app')">
+      <div class="stat-icon">
+        <i class="bi bi-phone"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ getPlanCountByCategory('app') }}</h3>
+        <p>App Plans</p>
+        <div class="stat-meta">
+          <span class="active-count">{{ getActivePlansByCategory('app') }} Active</span>
+        </div>
+      </div>
+      <div class="stat-arrow">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+
+    <div class="stat-card package-card" (click)="filterByServiceType('both')">
+      <div class="stat-icon">
+        <i class="bi bi-rocket-takeoff"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ getPlanCountByCategory('both') }}</h3>
+        <p>Package Plans</p>
+        <div class="stat-meta">
+          <span class="active-count">{{ getActivePlansByCategory('both') }} Active</span>
+        </div>
+      </div>
+      <div class="stat-arrow">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+
+    <div class="stat-card total-card">
+      <div class="stat-icon">
+        <i class="bi bi-collection"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ plans.length }}</h3>
+        <p>Total Plans</p>
+        <div class="stat-meta">
+          <span class="popular-count">{{ getPopularPlansCount() }} Popular</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions Bar -->
+  <div class="quick-actions-bar" *ngIf="filteredPlans.length > 0">
+    <div class="actions-left">
+      <span class="results-count">
+        <i class="bi bi-funnel"></i>
+        Showing {{ filteredPlans.length }} of {{ plans.length }} plans
+      </span>
+    </div>
+    <div class="actions-right">
+      <button class="btn-quick" (click)="activateAll()" title="Activate All Filtered">
+        <i class="bi bi-check-circle"></i>
+        Activate All
+      </button>
+      <button class="btn-quick" (click)="deactivateAll()" title="Deactivate All Filtered">
+        <i class="bi bi-x-circle"></i>
+        Deactivate All
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label><i class="bi bi-translate"></i> Language:</label>
+      <div class="filter-buttons">
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedLanguage === 'all'"
+          (click)="filterByLanguage('all')"
+        >
+          <span class="badge">{{ plans.length }}</span>
+          All
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedLanguage === 'en'"
+          (click)="filterByLanguage('en')"
+        >
+          <span class="badge">{{ getPlansByLanguage('en') }}</span>
+          English
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedLanguage === 'ar'"
+          (click)="filterByLanguage('ar')"
+        >
+          <span class="badge">{{ getPlansByLanguage('ar') }}</span>
+          العربية
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label><i class="bi bi-grid-3x3"></i> Service Type:</label>
+      <div class="filter-buttons">
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedServiceType === 'all'"
+          (click)="filterByServiceType('all')"
+        >
+          All
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedServiceType === 'website'"
+          (click)="filterByServiceType('website')"
+        >
+          🌐 Website
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedServiceType === 'app'"
+          (click)="filterByServiceType('app')"
+        >
+          📱 App
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedServiceType === 'both'"
+          (click)="filterByServiceType('both')"
+        >
+          🚀 Package
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label><i class="bi bi-layers"></i> Tier:</label>
+      <div class="filter-buttons">
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedTier === 'all'"
+          (click)="filterByTier('all')"
+        >
+          All
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedTier === 'basic'"
+          (click)="filterByTier('basic')"
+        >
+          Basic
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedTier === 'professional'"
+          (click)="filterByTier('professional')"
+        >
+          Professional
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedTier === 'enterprise'"
+          (click)="filterByTier('enterprise')"
+        >
+          Enterprise
+        </button>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search by name or description..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      >
+      <button class="clear-search" *ngIf="searchTerm" (click)="clearSearch()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <button class="btn btn-secondary" (click)="refreshData()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading pricing plans...</p>
+  </div>
+
+  <!-- Plans Grid -->
+  <div class="plans-grid" *ngIf="!loading && filteredPlans.length > 0">
+    <div class="plan-card" *ngFor="let plan of filteredPlans" [class.inactive]="!plan.is_active">
+      <!-- Popular Badge -->
+      <div class="popular-badge" *ngIf="plan.is_popular">
+        <i class="bi bi-star-fill"></i>
+        Popular
+      </div>
+
+      <!-- Status Badge -->
+      <div class="status-badge" [class.active]="plan.is_active">
+        {{ plan.is_active ? 'Active' : 'Inactive' }}
+      </div>
+
+      <!-- Card Header -->
+      <div class="card-header">
+        <div class="service-type-badge" [class]="plan.service_type">
+          <span *ngIf="plan.service_type === 'website'">🌐</span>
+          <span *ngIf="plan.service_type === 'app'">📱</span>
+          <span *ngIf="plan.service_type === 'both'">🚀</span>
+          {{ getServiceCategoryName(plan.service_type) }}
+        </div>
+        <div class="tier-badge" [class]="plan.tier">
+          <i class="bi bi-award"></i>
+          {{ getTierName(plan.tier) }}
+        </div>
+      </div>
+
+      <!-- Plan Info -->
+      <div class="plan-info">
+        <h3>{{ plan.name }}</h3>
+        <p>{{ plan.description }}</p>
+        <div class="meta-info">
+          <div class="language-badge">
+            <i class="bi bi-translate"></i>
+            {{ plan.language === 'en' ? 'English' : 'العربية' }}
+          </div>
+          <div class="order-badge">
+            <i class="bi bi-sort-numeric-down"></i>
+            Order: {{ plan.order }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Pricing -->
+      <div class="pricing-info">
+        <div class="price-comparison">
+          <div class="price-item monthly">
+            <span class="label">
+              <i class="bi bi-calendar-month"></i>
+              Monthly
+            </span>
+            <span class="price">${{ plan.price_monthly }}</span>
+            <span class="period">/month</span>
+          </div>
+          <div class="price-item yearly">
+            <span class="label">
+              <i class="bi bi-calendar-check"></i>
+              Yearly
+            </span>
+            <span class="price">${{ plan.price_yearly }}</span>
+            <span class="period">/year</span>
+          </div>
+        </div>
+        <div class="savings-highlight" *ngIf="calculateSavings(plan) > 0">
+          <i class="bi bi-piggy-bank-fill"></i>
+          <span class="savings-text">
+            Save <strong>${{ calculateSavings(plan) }}</strong> 
+            (<strong>{{ calculateSavingsPercentage(plan) }}%</strong>) with yearly billing
+          </span>
+        </div>
+        <div class="price-stats">
+          <div class="stat-item">
+            <span class="label">Monthly × 12:</span>
+            <span class="value">${{ plan.price_monthly * 12 }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Yearly Price:</span>
+            <span class="value">${{ plan.price_yearly }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="features-list">
+        <div class="features-header">
+          <i class="bi bi-check-circle-fill"></i>
+          <span>Features ({{ plan.features?.length || 0 }})</span>
+        </div>
+        <div class="feature-item" *ngFor="let feature of plan.features; let i = index">
+          <span class="feature-number">{{ i + 1 }}</span>
+          <span class="feature-text">{{ feature }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card-actions">
+        <button class="btn-action edit" (click)="editPlan(plan)" title="Edit Plan">
+          <i class="bi bi-pencil-square"></i>
+          <span>Edit</span>
+        </button>
+        <button class="btn-action duplicate" (click)="duplicatePlan(plan)" title="Duplicate Plan">
+          <i class="bi bi-files"></i>
+          <span>Copy</span>
+        </button>
+        <button 
+          class="btn-action toggle" 
+          [class.active]="plan.is_active"
+          (click)="toggleStatus(plan)" 
+          [title]="plan.is_active ? 'Deactivate' : 'Activate'"
+        >
+          <i class="bi" [class.bi-toggle-on]="plan.is_active" [class.bi-toggle-off]="!plan.is_active"></i>
+          <span>{{ plan.is_active ? 'Active' : 'Inactive' }}</span>
+        </button>
+        <button class="btn-action delete" (click)="deletePlan(plan)" title="Delete Plan">
+          <i class="bi bi-trash3"></i>
+          <span>Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && filteredPlans.length === 0">
+    <div class="empty-icon">
+      <i class="bi bi-inbox"></i>
+    </div>
+    <h3>No Pricing Plans Found</h3>
+    <p *ngIf="searchTerm || selectedLanguage !== 'all' || selectedServiceType !== 'all' || selectedTier !== 'all'">
+      No plans match your current filters. Try adjusting your search criteria.
+    </p>
+    <p *ngIf="!searchTerm && selectedLanguage === 'all' && selectedServiceType === 'all' && selectedTier === 'all'">
+      Get started by creating your first pricing plan to offer to your customers.
+    </p>
+    <div class="empty-actions">
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <i class="bi bi-plus-circle"></i>
+        Create First Plan
+      </button>
+      <button class="btn btn-secondary" (click)="clearAllFilters()" *ngIf="searchTerm || selectedLanguage !== 'all' || selectedServiceType !== 'all' || selectedTier !== 'all'">
+        <i class="bi bi-x-circle"></i>
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Enhanced Modal -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="bi" [class.bi-plus-circle-fill]="!isEditMode" [class.bi-pencil-square]="isEditMode"></i>
+          <h2>{{ isEditMode ? 'Edit Pricing Plan' : 'Create New Pricing Plan' }}</h2>
+        </div>
+        <button class="close-btn" (click)="closeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <form [formGroup]="planForm" (ngSubmit)="savePlan()">
+        <div class="modal-body">
+          <!-- Step Indicator -->
+          <div class="form-steps">
+            <div class="step active">
+              <span class="step-number">1</span>
+              <span class="step-label">Basic Info</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step active">
+              <span class="step-number">2</span>
+              <span class="step-label">Pricing</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step active">
+              <span class="step-number">3</span>
+              <span class="step-label">Features</span>
+            </div>
+          </div>
+
+          <!-- Language & Service Type -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="bi bi-info-circle"></i>
+              Basic Information
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Language <span class="required">*</span></label>
+                <select formControlName="language" class="form-control">
+                  <option value="en">🇬🇧 English</option>
+                  <option value="ar">🇸🇦 العربية (Arabic)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Service Type <span class="required">*</span></label>
+                <select formControlName="service_type" class="form-control">
+                  <option value="website">🌐 Website Development</option>
+                  <option value="app">📱 Mobile App Development</option>
+                  <option value="both">🚀 Website + App Package</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tier & Name -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Plan Tier <span class="required">*</span></label>
+                <select formControlName="tier" class="form-control">
+                  <option value="basic">⭐ Basic</option>
+                  <option value="professional">⭐⭐ Professional</option>
+                  <option value="enterprise">⭐⭐⭐ Enterprise</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Plan Name <span class="required">*</span></label>
+                <input 
+                  type="text" 
+                  formControlName="name" 
+                  class="form-control"
+                  placeholder="e.g., Professional Website Plan"
+                >
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label>Description <span class="required">*</span></label>
+              <textarea 
+                formControlName="description" 
+                class="form-control"
+                rows="3"
+                placeholder="Describe what makes this plan special..."
+              ></textarea>
+              <small class="form-hint">
+                <i class="bi bi-lightbulb"></i>
+                Keep it concise and highlight the main benefits
+              </small>
+            </div>
+          </div>
+
+          <!-- Pricing Section -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="bi bi-currency-dollar"></i>
+              Pricing Details
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Monthly Price ($) <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="bi bi-currency-dollar"></i>
+                  <input 
+                    type="number" 
+                    formControlName="price_monthly" 
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                    placeholder="299.00"
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Yearly Price ($) <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="bi bi-currency-dollar"></i>
+                  <input 
+                    type="number" 
+                    formControlName="price_yearly" 
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                    placeholder="2990.00"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Savings Calculator -->
+            <div class="savings-calculator" *ngIf="planForm.get('price_monthly')?.value > 0 && planForm.get('price_yearly')?.value > 0">
+              <div class="calculator-header">
+                <i class="bi bi-calculator"></i>
+                <span>Savings Calculator</span>
+              </div>
+              <div class="calculator-content">
+                <div class="calc-row">
+                  <span>Monthly × 12:</span>
+                  <strong>${{ (planForm.get('price_monthly')?.value * 12) | number:'1.2-2' }}</strong>
+                </div>
+                <div class="calc-row">
+                  <span>Yearly Price:</span>
+                  <strong>${{ planForm.get('price_yearly')?.value | number:'1.2-2' }}</strong>
+                </div>
+                <div class="calc-row highlight">
+                  <span>Customer Saves:</span>
+                  <strong class="savings-amount">
+                    ${{ ((planForm.get('price_monthly')?.value * 12) - planForm.get('price_yearly')?.value) | number:'1.2-2' }}
+                    ({{ ((((planForm.get('price_monthly')?.value * 12) - planForm.get('price_yearly')?.value) / (planForm.get('price_monthly')?.value * 12)) * 100) | number:'1.0-0' }}%)
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Features Section -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="bi bi-list-check"></i>
+              Plan Features
+            </h3>
+            <div formArrayName="features" class="features-array">
+              <div *ngFor="let feature of features.controls; let i = index" class="feature-input-group">
+                <span class="feature-number">{{ i + 1 }}</span>
+                <input 
+                  type="text" 
+                  [formControlName]="i" 
+                  class="form-control"
+                  [placeholder]="'Feature ' + (i + 1)"
+                >
+                <button 
+                  type="button" 
+                  class="btn-remove" 
+                  (click)="removeFeature(i)"
+                  [disabled]="features.length <= 1"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="addFeature()">
+              <i class="bi bi-plus-circle"></i>
+              Add Another Feature
+            </button>
+          </div>
+
+          <!-- Options Section -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="bi bi-gear"></i>
+              Additional Options
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Display Order</label>
+                <input 
+                  type="number" 
+                  formControlName="order" 
+                  class="form-control"
+                  min="0"
+                  placeholder="0"
+                >
+                <small class="form-hint">
+                  <i class="bi bi-info-circle"></i>
+                  Lower numbers appear first (0 = highest priority)
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label>Plan Settings</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" formControlName="is_popular">
+                    <span>
+                      <i class="bi bi-star-fill"></i>
+                      Mark as Popular Choice
+                    </span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" formControlName="is_active">
+                    <span>
+                      <i class="bi bi-check-circle-fill"></i>
+                      Active (Visible to customers)
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="saving">
+            <i class="bi bi-x-circle"></i>
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="saving || planForm.invalid">
+            <span *ngIf="!saving">
+              <i class="bi bi-check-circle"></i>
+              {{ isEditMode ? 'Update Plan' : 'Create Plan' }}
+            </span>
+            <span *ngIf="saving">
+              <span class="spinner-small"></span>
+              Saving...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
