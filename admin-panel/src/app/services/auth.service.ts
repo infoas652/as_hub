@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap, catchError, throwError, timeout } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, catchError, timeout } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 interface LoginResponse {
@@ -63,7 +64,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password })
       .pipe(
         timeout(this.timeout),
-        tap(response => {
+        tap((response: LoginResponse) => {
           this.setToken(response.access_token);
           if (response.user) {
             this.setUser(response.user);
@@ -101,7 +102,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/refresh`, {})
       .pipe(
         timeout(this.timeout),
-        tap(response => {
+        tap((response: LoginResponse) => {
           this.setToken(response.access_token);
         }),
         catchError(error => {
@@ -157,7 +158,7 @@ export class AuthService {
         })
       )
       .subscribe({
-        next: (user) => this.setUser(user),
+        next: (user: User) => this.setUser(user),
         error: () => this.clearSession()
       });
   }
@@ -263,7 +264,7 @@ export class AuthService {
     return this.http.put<User>(`${this.apiUrl}/auth/profile`, data)
       .pipe(
         timeout(this.timeout),
-        tap(user => this.setUser(user)),
+        tap((user: User) => this.setUser(user)),
         catchError(this.handleError.bind(this))
       );
   }

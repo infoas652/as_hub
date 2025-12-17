@@ -316,7 +316,7 @@
       <div class="features-list">
         <div class="features-header">
           <i class="bi bi-check-circle-fill"></i>
-          <span>Features ({{ plan.features?.length || 0 }})</span>
+          <span>Features ({{ plan.features.length || 0 }})</span>
         </div>
         <div class="feature-item" *ngFor="let feature of plan.features; let i = index">
           <span class="feature-number">{{ i + 1 }}</span>

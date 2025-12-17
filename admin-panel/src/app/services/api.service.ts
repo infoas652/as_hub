@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, timeout, retry, catchError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { timeout, retry, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface ApiError {
@@ -33,7 +34,7 @@ export class ApiService {
       .pipe(
         timeout(this.timeout),
         retry(this.maxRetries),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -41,7 +42,7 @@ export class ApiService {
     return this.http.post<T>(`${this.apiUrl}${endpoint}`, data)
       .pipe(
         timeout(this.timeout),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -49,7 +50,7 @@ export class ApiService {
     return this.http.put<T>(`${this.apiUrl}${endpoint}`, data)
       .pipe(
         timeout(this.timeout),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -57,7 +58,7 @@ export class ApiService {
     return this.http.delete<T>(`${this.apiUrl}${endpoint}`)
       .pipe(
         timeout(this.timeout),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -167,7 +168,7 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/admin/leads/export`, { responseType: 'blob' })
       .pipe(
         timeout(this.timeout),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -194,7 +195,7 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/admin/media-upload`, formData)
       .pipe(
         timeout(60000), // Longer timeout for file uploads
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
